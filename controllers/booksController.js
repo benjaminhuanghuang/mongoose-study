@@ -24,10 +24,11 @@ exports.getBooksPagination = async (req, res) => {
   res.render('stores', { title: 'Stores', stores, page, pages, count });
 };
 
-exports.getBooksOldStyle = async (req, res) => {
+exports.getBooksOldStyle = (req, res) => {
   Book.find({})
     .exec(function (err, books) {
       if (err) {
+        console.log(err);
         res.send('error occurred')
       } else {
         console.log(books);
@@ -37,7 +38,7 @@ exports.getBooksOldStyle = async (req, res) => {
 }
 
 
-exports.getBooks= async (req, res) => {
- const books = await Book.find({});
- res.json(books);
+exports.getBooks = async (req, res) => {
+  const books = await Book.find({});
+  res.json(books);
 }

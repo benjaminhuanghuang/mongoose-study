@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 var Book = require('../models/book');
 
 // Get data with pagination
@@ -41,4 +42,15 @@ exports.getBooksOldStyle = (req, res) => {
 exports.getBooks = async (req, res) => {
   const books = await Book.find({});
   res.json(books);
+}
+
+exports.addBook = async (req, res) => {
+  var newBook = new Book();
+
+  newBook.title = req.body.title;
+  newBook.author = req.body.author;
+  newBook.category = req.body.category;
+
+  const book = await newBook.save();
+  res.json(book);
 }

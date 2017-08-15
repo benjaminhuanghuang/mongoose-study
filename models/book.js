@@ -5,6 +5,6 @@ var BookSchema = new Schema({
   title: String,
   author: String,
   category: String
-});
+}, { collection: 'bookinfo' });
 
 module.exports = mongoose.model('Book', BookSchema);

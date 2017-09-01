@@ -46,7 +46,3 @@ Add postCount virtual property to User . Do NOT use => function here
   });
 
   ```
-
-
-## Pagination / skip & limit
-  

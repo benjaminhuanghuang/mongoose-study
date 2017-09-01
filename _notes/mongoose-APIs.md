@@ -51,5 +51,7 @@
 
 
 ## Pagination
-  User.find({}).sort({ name: 1 }).skip(1).limit(2)
+  
+  User.find({}).sort({ name: 1 }).skip(1).limit(2)   # 1: ascending  -1: descending
+   
     

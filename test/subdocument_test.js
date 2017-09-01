@@ -1,7 +1,7 @@
 const assert = require('assert');
 const User = require('../models/user');
 
-describe('Subdocuments', () => {
+describe('Subdocuments testing: ', () => {
   it('can create a subdocument', (done) => {
     const joe = new User({
       name: 'Joe',

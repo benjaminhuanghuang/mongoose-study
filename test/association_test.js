@@ -30,6 +30,7 @@ describe('Assocations', () => {
   });
 
   it('saves a full relation graph', (done) => {
+    // Loading deeply nested association user.blogPosts.comments.user
     User.findOne({ name: 'Joe' })
       .populate({
         path: 'blogPosts',

@@ -48,3 +48,8 @@
   - findeByIdAndRemove
   Model Instance API
   - remove
+
+
+## Pagination
+  User.find({}).sort({ name: 1 }).skip(1).limit(2)
+    

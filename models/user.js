@@ -1,43 +1,36 @@
 const mongoose = require('mongoose');
+const PostSchema = require('./post');
 const Schema = mongoose.Schema;
-mongoose.Promise = global.Promise;
-const md5 = require('md5');
-const validator = require('validator');
-const mongodbErrorHandler = require('mongoose-mongodb-errors');
-const passportLocalMongoose = require('passport-local-mongoose');
 
-const userSchema = new Schema({
-  email: {
-    type: String,
-    unique: true,
-    lowercase: true,
-    trim: true,
-    validate: [validator.isEmail, 'Invalid Email Address'],
-    required: 'Please Supply an email address'
-  },
+const UserSchema = new Schema({
   name: {
     type: String,
-    required: 'Please supply a name',
-    trim: true
+    validate: {
+      validator: (name) => name.length > 2,
+      message: 'Name must be longer than 2 characters.'
+    },
+    required: [true, 'Name is required.']
   },
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-  // for review
-  hearts: [{
-    type: mongoose.Schema.ObjectId,
-    ref: 'Store'
+  posts: [PostSchema],
+  likes: Number,
+  blogPosts: [{
+    type: Schema.Types.ObjectId,
+    ref: 'blogPost'
   }]
 });
 
-// Add virtual field to user. The virtual field is not saved in database.
-userSchema.virtual('gravatar').get(function () {
-  const hash = md5(this.email);
-  return `http://gravatar.com/avatar/${hash}?200`;
+UserSchema.virtual('postCount').get(function() {
+  return this.posts.length;
 });
 
-userSchema.plugin(passportLocalMongoose, {
-  usernameField: 'email'
-});
-userSchema.plugin(mongodbErrorHandler);
+UserSchema.pre('remove', function(next) {
+  const BlogPost = mongoose.model('blogPost');
+  // this === joe
 
-module.exports = mongoose.model('User', userSchema);
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+});
+
+const User = mongoose.model('user', UserSchema);
+
+module.exports = User;

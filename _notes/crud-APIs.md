@@ -26,7 +26,14 @@
 ## Update
   Model Class API
   - update
+  ```
+  User.update({name:'Joe'}, {age: 30})
+
+  User.update({name:'Joe'}, {$inc: {age:1}})
+  
+  ```
   - findeOneAndUpdate
+  
   - findeByIdAndUpdate
   
   Model Instance API
